@@ -18,6 +18,11 @@ contract Education {
         bool completed
     );
 
+    event EduInfoCompleted(
+        uint id,
+        bool completed
+    );
+
     constructor() public {
         createEduInfo("student name","The first time deployment");
     }
@@ -26,5 +31,13 @@ contract Education {
         eduCount ++;
         eduInformations[eduCount] = EduInfo(eduCount, _name, _content, false);
         emit EduInfoCreated(eduCount, _name, _content, false);
+    }
+
+    function toggleCompleted(uint _id) public {
+        EduInfo memory _eduInfo = eduInformations[_id];
+        _eduInfo.completed = !_eduInfo.completed;
+        eduInformations[_id] = _eduInfo;
+        emit EduInfoCompleted(_id, _eduInfo.completed);
+    
     }
 }

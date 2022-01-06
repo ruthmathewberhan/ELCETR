@@ -94,7 +94,7 @@ App = {
       $newTaskTemplate.find('input')
                       .prop('name', eduId)
                       .prop('checked', eduCompleted)
-                      //.on('click', App.toggleCompleted)
+                      .on('click', App.toggleCompleted)
         // Put the task in the correct list
       if (eduCompleted) {
         $('#completedTaskList').append($newTaskTemplate)
@@ -116,6 +116,13 @@ App = {
        const content = $('#newTask').val()
        await App.education.createEduInfo(stuName, content)
        window.location.reload()
+    },
+
+    toggleCompleted: async (e) => {
+        App.setLoading(true)
+        const eduId = e.target.name 
+        await App.education.toggleCompleted(eduId)
+        window.location.reload()
     },
 
   setLoading: (boolean) => {

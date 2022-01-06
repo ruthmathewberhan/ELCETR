@@ -35,5 +35,16 @@ contract('Education', (accounts) => {
         assert.equal(event.content, 'simret info')
         assert.equal(event.completed, false)
     })
+
+    it('toggles task completion', async() => {
+        const result = await this.education.toggleCompleted(1)
+        const task = await this.education.eduInformations(1)
+        assert.equal(task.completed, true)
+        console.log(result)
+        const event = result.logs[0].args
+        assert.equal(event.id.toNumber(), 1)
+        assert.equal(event.completed, true)
+        
+    })
 })
 
