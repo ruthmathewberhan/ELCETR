@@ -64,9 +64,10 @@ App = {
 
   render: async () => {
     // Prevent double render
-    if (App.loading) {
-      return;
-    }
+    Singleton.getProcessManager(App.loading)
+    // if (App.loading) {
+    //   return;
+    // }
 
     //update app loading state
     App.setLoading(true);
