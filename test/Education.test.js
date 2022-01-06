@@ -23,5 +23,17 @@ contract('Education', (accounts) => {
         assert.equal(task.name, 'student name')
         assert.equal(taskCount.toNumber(),1)
     })
+
+    it('creates tasks', async() => {
+        const result = await this.education.createEduInfo("simret", "simret info")
+        const taskCount = await this.education.eduCount()
+        assert.equal(taskCount, 2)
+        console.log(result)
+        const event = result.logs[0].args
+        assert.equal(event.id.toNumber(), 2)
+        assert.equal(event.name, 'simret')
+        assert.equal(event.content, 'simret info')
+        assert.equal(event.completed, false)
+    })
 })
 

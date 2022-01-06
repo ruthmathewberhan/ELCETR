@@ -42,6 +42,7 @@ App = {
     }
   },
   loadAccount: async () => {
+    web3.eth.defaultAccount = ethereum._state.accounts[0]
       App.account = web3.eth.accounts[0]
       console.log(App.account)
   },
@@ -107,6 +108,14 @@ App = {
         }
        
        
+    },
+
+    createEduInfo: async () => {
+       App.setLoading(true)
+       const stuName = $('#newName').val()
+       const content = $('#newTask').val()
+       await App.education.createEduInfo(stuName, content)
+       window.location.reload()
     },
 
   setLoading: (boolean) => {
