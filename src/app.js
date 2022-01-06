@@ -182,6 +182,12 @@ App = {
 
 $(() => {
   $(window).load(() => {
-    App.load();
+    const subject = new Subject()
+
+subject.subscribe(App)
+subject.fire() 
+    
+subject.unsubscribe(App)
+subject.fire()
   });
 });
