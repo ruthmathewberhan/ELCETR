@@ -64,7 +64,7 @@ App = {
 
   render: async () => {
     // Prevent double render
-    Singleton.getProcessManager(App.loading)
+    Singleton.getProcessManager(App.loading);
     // if (App.loading) {
     //   return;
     // }
@@ -76,6 +76,8 @@ App = {
     $("#account").html(App.account);
     // Render Tasks
     await App.renderEduInformations();
+    await App.renderEduInformations2();
+    await App.renderEduInformations3();
 
     // Update loading state
     App.setLoading(false);
@@ -86,24 +88,34 @@ App = {
     const eduCount = await App.education.eduCount();
     const $taskTemplate = $(".taskTemplate");
 
-    const items = Array(eduCount - 1 + 1).fill().map((_, idx) => 1 + idx);
+    const items = Array(eduCount - 1 + 1)
+      .fill()
+      .map((_, idx) => 1 + idx);
     const iter = new Iterator(items);
 
     //console.log(iter.hasNext());
-
+    console.log(App.education.eduInformations[0]);
     while (iter.hasNext()) {
       //console.log(iter.next());
       const edu = await App.education.eduInformations(iter.next());
       console.log(edu);
       const eduId = edu[0].toNumber();
       const eduName = edu[1];
-      const eduContent = edu[2];
-      const eduCompleted = edu[3];
+      const eduLevel = edu[2];
+      const eduCa = edu[3];
+      const eduResult = edu[4];
+      const eduContent = edu[5];
+      const eduAddress = edu[6];
+      const eduCompleted = edu[7];
 
       // Create the html for the task
       const $newTaskTemplate = $taskTemplate.clone();
       $newTaskTemplate.find(".stuName").html(eduName);
       $newTaskTemplate.find(".content").html(eduContent);
+      $newTaskTemplate.find(".ca").html(eduCa);
+      $newTaskTemplate.find(".result").html(eduResult);
+      $newTaskTemplate.find(".level").html(eduLevel);
+
       $newTaskTemplate
         .find("input")
         .prop("name", eduId)
@@ -149,11 +161,133 @@ App = {
     // }
   },
 
+  renderEduInformations2: async () => {
+    //Load the total task count from the blockchain
+    const eduCount = await App.education.eduCount();
+    const $taskTemplate = $(".taskTemplate2");
+
+    const items = Array(eduCount - 1 + 1)
+      .fill()
+      .map((_, idx) => 1 + idx);
+    const iter = new Iterator(items);
+
+    //console.log(iter.hasNext());
+    console.log(App.education.eduInformations[0]);
+    while (iter.hasNext()) {
+      //console.log(iter.next());
+      const edu = await App.education.eduInformations(iter.next());
+      console.log(edu);
+      const eduId = edu[0].toNumber();
+      const eduName = edu[1];
+      const eduLevel = edu[2];
+      const eduCa = edu[3];
+      const eduResult = edu[4];
+      const eduContent = edu[5];
+      const eduAddress = edu[6];
+      const eduCompleted = edu[7];
+
+      // Create the html for the task
+      if (App.account.toString() == eduAddress) {
+        console.log("they are equal");
+        const $newTaskTemplate2 = $taskTemplate.clone();
+        $newTaskTemplate2.find(".stuName2").html(eduName);
+        $newTaskTemplate2.find(".content2").html(eduContent);
+        $newTaskTemplate2.find(".ca2").html(eduCa);
+        $newTaskTemplate2.find(".result2").html(eduResult);
+        $newTaskTemplate2.find(".level2").html(eduLevel);
+
+        $newTaskTemplate2
+          .find("input")
+          .prop("name", eduId)
+          .prop("checked", eduCompleted)
+          .on("click", App.toggleCompleted);
+        // Put the task in the correct list
+        if (eduCompleted) {
+          $("#completedTaskList2").append($newTaskTemplate2);
+        } else {
+          $("#taskList2").append($newTaskTemplate2);
+        }
+        //Show the task
+        $newTaskTemplate2.show();
+      }
+    }
+  },
+
+  renderEduInformations3: async () => {
+    //Load the total task count from the blockchain
+    const eduCount = await App.education.eduCount();
+    const $taskTemplate = $(".taskTemplate3");
+    const $taskTemplate4 = $(".taskTemplate4");
+    let eduName;
+    let eduCompleted;
+
+    const $newTaskTemplate4 = $taskTemplate4.clone();
+    const items = Array(eduCount - 1 + 1)
+      .fill()
+      .map((_, idx) => 1 + idx);
+    const iter = new Iterator(items);
+
+    //console.log(iter.hasNext());
+    console.log(App.education.eduInformations[0]);
+    while (iter.hasNext()) {
+      //console.log(iter.next());
+      const edu = await App.education.eduInformations(iter.next());
+      const eduId = edu[0].toNumber();
+      eduName = edu[1];
+      const eduLevel = edu[2];
+      const eduCa = edu[3];
+      const eduResult = edu[4];
+      const eduContent = edu[5];
+      const eduAddress = edu[6];
+      eduCompleted = edu[7];
+
+      // Create the html for the task
+      if (App.account.toString() == eduAddress) {
+        console.log("they are equal");
+        const $newTaskTemplate3 = $taskTemplate.clone();
+        $newTaskTemplate3.find(".content3").html(eduContent);
+        $newTaskTemplate3.find(".ca3").html(eduCa);
+        $newTaskTemplate3.find(".result3").html(eduResult);
+        $newTaskTemplate3.find(".level3").html(eduLevel);
+        console.log(eduName);
+        $newTaskTemplate4.find(".stuName3").html(eduName);
+
+        $newTaskTemplate3
+          .find("input")
+          .prop("name", eduId)
+          .prop("checked", eduCompleted)
+          .on("click", App.toggleCompleted);
+        // Put the task in the correct list
+        if (eduCompleted) {
+          $("#completedTaskList3").append($newTaskTemplate3);
+        } else {
+          $("#taskList3").append($newTaskTemplate3);
+        }
+        //Show the task
+        $newTaskTemplate3.show();
+        
+      }
+      $("#completedTaskList4").append($newTaskTemplate4);
+      
+      $newTaskTemplate4.show();
+    }
+  },
+
   createEduInfo: async () => {
     App.setLoading(true);
     const stuName = $("#newName").val();
+    const level = $("#newlevel").val();
+    const ca = $("#newca").val();
+    const result = $("#newresult").val();
     const content = $("#newTask").val();
-    await App.education.createEduInfo(stuName, content);
+    await App.education.createEduInfo(
+      stuName,
+      level,
+      ca,
+      result,
+      content,
+      App.account
+    );
     window.location.reload();
   },
 
@@ -169,26 +303,35 @@ App = {
     const loader = $("#loader");
     const content = $("#content");
     const stuName = $("#stuName");
+    const level = $("#level");
+    const ca = $("#ca");
+    const result = $("#result");
     if (boolean) {
       loader.show();
       content.hide();
       stuName.hide();
+      level.hide();
+      ca.hide();
+      result.hide();
     } else {
       loader.hide();
       content.show();
       stuName.show();
+      level.show();
+      ca.show();
+      result.show();
     }
   },
 };
 
 $(() => {
   $(window).load(() => {
-    const subject = new Subject()
+    const subject = new Subject();
 
-subject.subscribe(App)
-subject.fire() 
-    
-subject.unsubscribe(App)
-subject.fire()
+    subject.subscribe(App);
+    subject.fire();
+
+    subject.unsubscribe(App);
+    subject.fire();
   });
 });

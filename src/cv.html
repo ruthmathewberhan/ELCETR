@@ -1,0 +1,166 @@
+<html>
+    <head>
+          <!-- Vendor CSS Files -->
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <style type='text/css'>
+            body, html {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                color: black;
+                display: table;
+                font-family: Georgia, serif;
+                font-size: 24px;
+                text-align: center;
+            }
+            .container {
+                border: 20px solid tan;
+                width: 750px;
+                height: 563px;
+                display: table-cell;
+                vertical-align: middle;
+            }
+            .logo {
+                color: tan;
+            }
+
+            .marquee {
+                color: tan;
+                font-size: 48px;
+                margin: 20px;
+            }
+            .assignment {
+                margin: 20px;
+            }
+            .person {
+                border-bottom: 2px solid black;
+                font-size: 32px;
+                font-style: italic;
+                margin: 20px auto;
+                width: 400px;
+            }
+            .reason {
+                margin: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="contentToPrint">
+        <div class="container">
+            <div class="logo">
+                An Organization
+            </div>
+
+            <div class="marquee">
+                Certificate of Completion
+            </div>
+
+            <div class="assignment">
+                This certificate is presented to
+            </div>
+
+            <div class="person">
+                <div class="taskTemplate4" class="checkbox" style="display: none">
+                <label>
+                    <span class="stuName3">Information content goes here...</span>
+                  </label>
+                </div>
+                <div id="completedTaskList4">
+
+                </div>
+            </div>
+
+            <div class="reason">
+                For deftly defying the laws of gravity<br/>
+                and flying high
+            </div>
+            <div>
+                <div class="container-fluid">
+                    <div class="row">
+                      <main role="main" class="col-lg-12 d-flex justify-content-center">
+                        <div id="loader" class="text-center">
+                          <p class="text-center">Loading...</p>
+                        </div>
+                        <div id="content">
+                          <form onSubmit="App.createEduInfo(); return false;">
+                            <input type="submit" hidden="">
+                          </form>
+                          <ul id="taskList3" class="list-unstyled">
+                           
+                            <div class="taskTemplate3" class="checkbox" style="display: none">
+                              
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label>
+                                            <span class="level3">Information content goes here...</span>
+                                          </label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>
+                                            <span class="ca3">Information content goes here...</span>
+                                          </label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label>
+                                            <span class="result3">Information content goes here...</span>
+                                          </label>
+                                    </div>
+                                      <div class="col-3">
+                                        <label>
+                                            <span class="content3">Information content goes here...</span>
+                                          </label>
+                                      </div>
+                                   
+                                </div>
+                                
+                              
+                            </div>
+                          </ul>
+                          <ul id="completedTaskList3" class="list-unstyled">
+                          </ul>
+                        </div>
+                      </main>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        </div>
+        <button id="btn_convert">generate PDF</button>
+    </body>
+
+<script src="./html2pdf.bundle.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('btn_convert').onclick = function(){
+        var element = document.getElementById('contentToPrint');
+
+        var opt = {
+            margin: 1,
+            filename: 'cv.pdf',
+            image: { type: 'jpeg', quality: 0.98},
+            html2canvas: { scale: 2},
+            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'}
+        };
+        html2pdf(element, opt);
+        };
+</script>
+    
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="vendor/web3/dist/web3.min.js"></script>
+            <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="vendor/truffle-contract/dist/truffle-contract.js"></script>
+            <script src="./dp/Singleton.js"></script>
+            <script src="./dp/iterator.js"></script>
+            <script src="./dp/Observer.js"></script>
+            <script src="app.js"></script>
+            
+</html>

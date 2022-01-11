@@ -6,7 +6,11 @@ contract Education {
     struct EduInfo {
         uint id;
         string name;
+        string level;
+        string ca;
+        string result;
         string content;
+        string uAddress;
         bool completed;
     }
     mapping(uint => EduInfo) public eduInformations;
@@ -14,7 +18,11 @@ contract Education {
     event EduInfoCreated(
         uint id,
         string name,
+        string level,
+        string ca,
+        string result,
         string content,
+        string uAddress,
         bool completed
     );
 
@@ -23,14 +31,15 @@ contract Education {
         bool completed
     );
 
-    constructor() public {
-        createEduInfo("student name","The first time deployment");
-    }
+    // constructor() public {
+    //     createEduInfo("student name","The first time deployment");
+    // }
 
-    function createEduInfo(string memory _name, string memory _content) public {
+    function createEduInfo(string memory _name, string memory _level, string memory _ca,
+        string memory _result,string memory _content, string memory _address) public {
         eduCount ++;
-        eduInformations[eduCount] = EduInfo(eduCount, _name, _content, false);
-        emit EduInfoCreated(eduCount, _name, _content, false);
+        eduInformations[eduCount] = EduInfo(eduCount, _name, _level, _ca, _result, _content, _address, false);
+        emit EduInfoCreated(eduCount, _name, _level, _ca, _result, _content, _address, false);
     }
 
     function toggleCompleted(uint _id) public {
